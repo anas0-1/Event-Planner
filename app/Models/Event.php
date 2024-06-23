@@ -35,5 +35,10 @@ class Event extends Model
     {
         return $this->hasOne(Rating::class)->where('user_id', auth()->id());
     }
+    public function reservations()
+{
+    return $this->hasMany(Reservation::class);
+}
+
     
 }

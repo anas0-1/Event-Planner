@@ -31,7 +31,19 @@ class EventDetailController extends Controller
 
         return redirect()->route('events.show', $event->id)->with('success', 'Comment added successfully.');
     }
+    public function deleteComment($id)
+    {
+        // Find the comment
+        $comment = Comment::findOrFail($id);
 
+        // Check if the logged-in user is the owner of the comment
+        if ($comment->user_id == auth()->id()) {
+            $comment->delete();
+            return redirect()->back()->with('success', 'Comment deleted successfully!');
+        }
+
+        return redirect()->back()->with('error', 'Unauthorized action.');
+    }
     public function storeRating(Request $request, $id)
     {
         $request->validate([
